@@ -1,0 +1,29 @@
+# TAHER Core Dependencies
+PySide6
+pyyaml
+pydantic
+chromadb
+ollama
+openai  # For OpenAI-compatible local endpoints
+requests
+aiohttp
+python-dotenv
+
+# Automation
+pyautogui
+playwright
+pywin32; sys_platform == 'win32'
+opencv-python
+pillow
+
+# Voice & Multi-modal
+faster-whisper
+piper-tts
+sounddevice
+numpy
+
+# Development & Self-Improvement
+GitPython
+pytest
+black
+ruff

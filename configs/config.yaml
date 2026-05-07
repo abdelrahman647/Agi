@@ -1,0 +1,27 @@
+# Main configuration for TAHER
+
+system:
+  name: "TAHER"
+  version: "0.1.0-alpha"
+  debug: true
+
+models:
+  primary: "qwen2.5:7b"
+  coder: "qwen2.5-coder:7b"
+  vision: "moondream"
+  stt: "faster-whisper"
+  tts: "piper"
+  embeddings: "all-Minilm-L6-v2"
+
+memory:
+  db_type: "chromadb"
+  path: "./memory/db"
+
+gui:
+  theme: "dark"
+  animations: true
+
+sandbox:
+  enabled: true
+  vm_ip: "192.168.x.x" # To be configured by user
+  ssh_user: "jules"
