@@ -4,17 +4,44 @@ from typing import Dict, List, Any
 from core.state import StateManager
 from core.events import EventBus
 from planner.hierarchical_planner import Planner
+from agents.research_agent import ResearchAgent
+from memory.memory_manager import MemoryManager
+from tools.notifications import NotificationSystem
 
 class Orchestrator:
     def __init__(self):
         self.state = StateManager()
         self.events = EventBus()
+        self.memory = MemoryManager()
         self.planner = Planner(self)
+        self.researcher = ResearchAgent(self.memory)
+        self.notifier = NotificationSystem()
+        self.is_running = False
         self.logger = logging.getLogger("TAHER.Core")
 
     async def start(self):
         self.logger.info("TAHER Orchestrator starting...")
-        # Start event loops, listeners, etc.
+        self.is_running = True
+        asyncio.create_task(self.autonomous_loop())
+
+    async def autonomous_loop(self):
+        """
+        Background loop that picks up research and learning tasks
+        when the system is not actively engaged with the user.
+        """
+        while self.is_running:
+            if not self.state.active_tasks and self.state.background_queue:
+                task = self.state.background_queue.pop(0)
+                self.logger.info(f"Picking up background task: {task['type']}")
+
+                if task['type'] == 'research':
+                    await self.researcher.research_topic(task['query'])
+                    self.notifier.task_complete(f"Research on {task['query']}")
+                elif task['type'] == 'learning':
+                    await self.researcher.learn_skill(task['skill'])
+                    self.notifier.task_complete(f"Learning {task['skill']}")
+
+            await asyncio.sleep(60) # Check every minute
 
     async def handle_instruction(self, instruction: str):
         self.logger.info(f"Received instruction: {instruction}")

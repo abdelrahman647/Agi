@@ -1,5 +1,5 @@
 import logging
-from typing import List, Any
+from typing import List, Any, Dict
 
 class Planner:
     def __init__(self, orchestrator):

@@ -1,15 +1,16 @@
-import ollama
+from ollama import AsyncClient
 import logging
 from typing import List, Dict
 
 class OllamaProvider:
     def __init__(self, model_name: str = "qwen3:8b"):
         self.model_name = model_name
+        self.client = AsyncClient()
         self.logger = logging.getLogger("TAHER.Ollama")
 
     async def chat(self, messages: List[Dict[str, str]], stream: bool = False):
         try:
-            response = ollama.chat(
+            response = await self.client.chat(
                 model=self.model_name,
                 messages=messages,
                 stream=stream
@@ -21,7 +22,7 @@ class OllamaProvider:
 
     async def generate(self, prompt: str):
         try:
-            response = ollama.generate(model=self.model_name, prompt=prompt)
+            response = await self.client.generate(model=self.model_name, prompt=prompt)
             return response['response']
         except Exception as e:
             self.logger.error(f"Ollama generate error: {e}")
