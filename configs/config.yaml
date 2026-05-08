@@ -7,7 +7,7 @@ system:
 
 models:
   primary: "qwen3:8b"
-  coder: "qwen2.5-coder:7b"
+  coder: "qwen3:8b"
   vision: "moondream"
   stt: "faster-whisper"
   tts: "piper"

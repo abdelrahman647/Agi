@@ -27,7 +27,6 @@ if (!(Get-Command ollama -ErrorAction SilentlyContinue)) {
 } else {
     Write-Host "Pulling models..." -ForegroundColor Green
     ollama pull qwen3:8b
-    ollama pull qwen2.5-coder:7b
     ollama pull moondream
 }
 
