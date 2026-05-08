@@ -12,6 +12,7 @@ python-dotenv
 # Automation
 pyautogui
 playwright
+win10toast; sys_platform == 'win32'
 pywin32; sys_platform == 'win32'
 opencv-python
 pillow

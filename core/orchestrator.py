@@ -73,7 +73,17 @@ class Orchestrator:
         # For now, we auto-approve unless it's a known dangerous pattern
         return True
 
-if __name__ == "__main__":
+async def main():
     logging.basicConfig(level=logging.INFO)
     orchestrator = Orchestrator()
-    asyncio.run(orchestrator.start())
+    await orchestrator.start()
+
+    # Keep the orchestrator alive
+    while orchestrator.is_running:
+        await asyncio.sleep(1)
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        pass
