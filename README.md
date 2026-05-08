@@ -35,6 +35,7 @@ TAHER is built with a modular, plugin-based architecture:
 - **Ollama:** [Download Ollama](https://ollama.com/) and pull the models:
   ```bash
   ollama pull qwen3:8b
+  ollama pull qwen2.5-coder:7b
   ollama pull moondream
   ```
 - **Git:** Installed and configured.

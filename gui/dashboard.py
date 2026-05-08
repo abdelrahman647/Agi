@@ -1,10 +1,25 @@
 import sys
+import asyncio
+import threading
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QTextEdit, QLineEdit, QWidget, QLabel
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal, QObject
+from core.orchestrator import Orchestrator
+
+class WorkerSignals(QObject):
+    response_received = Signal(str)
+    status_changed = Signal(str)
 
 class TaherGUI(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.orchestrator = Orchestrator()
+        self.signals = WorkerSignals()
+        self.signals.response_received.connect(self.on_response)
+        self.signals.status_changed.connect(self.on_status_change)
+
+        # Start orchestrator in a background thread
+        self.loop = asyncio.new_event_loop()
+        threading.Thread(target=self.run_async_loop, daemon=True).start()
         self.setWindowTitle("TAHER - AGI Assistant")
         self.resize(1000, 700)
 
@@ -41,13 +56,32 @@ class TaherGUI(QMainWindow):
             QLabel { color: #888888; font-size: 11px; }
         """)
 
+    def run_async_loop(self):
+        asyncio.set_event_loop(self.loop)
+        self.loop.run_until_complete(self.orchestrator.start())
+        self.loop.run_forever()
+
     def send_command(self):
         cmd = self.input_field.text()
         if cmd:
             self.display.append(f"<b>You:</b> {cmd}")
             self.input_field.clear()
             self.status.setText("Status: Thinking...")
-            # Here we would call orchestrator.handle_instruction(cmd)
+            asyncio.run_coroutine_threadsafe(self.process_instruction(cmd), self.loop)
+
+    async def process_instruction(self, instruction: str):
+        # This is a bridge between GUI thread and Orchestrator
+        # In a full implementation, the orchestrator would emit events
+        # which the GUI listens to.
+        await self.orchestrator.handle_instruction(instruction)
+        self.signals.response_received.emit("Task completed.")
+        self.signals.status_changed.emit("Status: Idle")
+
+    def on_response(self, text: str):
+        self.display.append(f"<b>TAHER:</b> {text}")
+
+    def on_status_change(self, status: str):
+        self.status.setText(status)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -35,7 +35,7 @@ TAHER is designed as a modular, local-first AGI system. The architecture centers
 
 #### D. Model Strategy (Optimized for RTX 4060 8GB)
 - **Primary Brain:** `qwen3:8b` (Quantized for low VRAM overhead).
-- **Coding:** `qwen3:8b`.
+- **Coding:** `qwen2.5-coder:7b`.
 - **Vision:** Florence-2 (compact yet powerful OCR/detection) + Moondream (description).
 - **Audio:** Faster-Whisper (Large-v3-distil) for STT; Piper for low-latency TTS.
 
