@@ -1,6 +1,10 @@
 import sys
+import os
 import asyncio
 import threading
+
+# Add project root to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QTextEdit, QLineEdit, QWidget, QLabel
 from PySide6.QtCore import Qt, Signal, QObject
 from core.orchestrator import Orchestrator

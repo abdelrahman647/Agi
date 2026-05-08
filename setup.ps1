@@ -31,4 +31,4 @@ if (!(Get-Command ollama -ErrorAction SilentlyContinue)) {
     ollama pull moondream
 }
 
-Write-Host "Setup complete. Run '.\venv\Scripts\Activate.ps1' to start." -ForegroundColor Green
+Write-Host "Setup complete. Run '.\venv\Scripts\Activate.ps1' and then 'python main.py' to start." -ForegroundColor Green

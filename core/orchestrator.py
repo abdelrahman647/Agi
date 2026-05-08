@@ -1,5 +1,10 @@
+import sys
+import os
 import asyncio
 import logging
+
+# Add project root to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from typing import Dict, List, Any
 from core.state import StateManager
 from core.events import EventBus

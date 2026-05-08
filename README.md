@@ -58,7 +58,7 @@ playwright install chromium
 
 1. **Start the AGI:**
    ```bash
-   python gui/dashboard.py
+   python main.py
    ```
 2. **Autonomous Mode:** TAHER will automatically pick up tasks from its background queue (defined in `configs/config.yaml`) when the user is inactive.
 3. **Notifications:** You will receive native Windows toast notifications when background research or code updates are complete.
