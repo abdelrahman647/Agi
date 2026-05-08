@@ -6,7 +6,7 @@ system:
   debug: true
 
 models:
-  primary: "qwen2.5:7b"
+  primary: "qwen3:8b"
   coder: "qwen2.5-coder:7b"
   vision: "moondream"
   stt: "faster-whisper"

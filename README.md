@@ -6,7 +6,7 @@ TAHER is a local-first, persistent, and self-improving AGI system designed to op
 
 - **Autonomous Research:** Continuously learns and researches in the background when you are idle.
 - **Self-Modification Engine:** Safely updates its own source code via Git and a Linux VM sandbox.
-- **Multi-Modal Brain:** Uses local models for Vision (Moondream/Florence-2), Speech (Faster-Whisper/Piper), and Reasoning (Qwen2.5).
+- **Multi-Modal Brain:** Uses local models for Vision (Moondream/Florence-2), Speech (Faster-Whisper/Piper), and Reasoning (Qwen3).
 - **System Control:** Automates Windows workflows using PyAutoGUI, Playwright, and Win32 APIs.
 - **Persistent Memory:** Long-term episodic and semantic memory powered by ChromaDB.
 - **Blender Integration:** Generates and iterates on 3D scenes via Python (`bpy`) automation.
@@ -34,7 +34,7 @@ TAHER is built with a modular, plugin-based architecture:
 - **Python 3.10+**
 - **Ollama:** [Download Ollama](https://ollama.com/) and pull the models:
   ```bash
-  ollama pull qwen2.5:7b
+  ollama pull qwen3:8b
   ollama pull qwen2.5-coder:7b
   ollama pull moondream
   ```

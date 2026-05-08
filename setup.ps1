@@ -26,7 +26,7 @@ if (!(Get-Command ollama -ErrorAction SilentlyContinue)) {
     Write-Host "Ollama not found. Please install it from ollama.com" -ForegroundColor Yellow
 } else {
     Write-Host "Pulling models..." -ForegroundColor Green
-    ollama pull qwen2.5:7b
+    ollama pull qwen3:8b
     ollama pull qwen2.5-coder:7b
     ollama pull moondream
 }
