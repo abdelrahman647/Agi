@@ -77,8 +77,12 @@ class TaherGUI(QMainWindow):
         # This is a bridge between GUI thread and Orchestrator
         # In a full implementation, the orchestrator would emit events
         # which the GUI listens to.
-        await self.orchestrator.handle_instruction(instruction)
-        self.signals.response_received.emit("Task completed.")
+        try:
+            await self.orchestrator.handle_instruction(instruction)
+            self.signals.response_received.emit("Task completed.")
+        except Exception as e:
+            self.signals.response_received.emit(f"System Error: {str(e)}")
+
         self.signals.status_changed.emit("Status: Idle")
 
     def on_response(self, text: str):

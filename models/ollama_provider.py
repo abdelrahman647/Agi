@@ -25,5 +25,9 @@ class OllamaProvider:
             response = await self.client.generate(model=self.model_name, prompt=prompt)
             return response['response']
         except Exception as e:
+            error_msg = str(e)
+            if "out of memory" in error_msg.lower() or "500" in error_msg:
+                self.logger.error(f"Ollama Out of Memory or Server Error: {error_msg}")
+                return "ERROR: TAHER's brain (Ollama) ran out of memory. Try closing other apps or using a smaller model."
             self.logger.error(f"Ollama generate error: {e}")
-            return str(e)
+            return f"Ollama Error: {error_msg}"

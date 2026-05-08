@@ -8,7 +8,7 @@ class NotificationSystem:
     def notify(self, title: str, message: str):
         self.logger.info(f"NOTIFICATION: {title} - {message}")
 
-        if sys_platform := sys.platform == "win32":
+        if (sys_platform := (sys.platform == "win32")):
             try:
                 from win10toast import ToastNotifier
                 toaster = ToastNotifier()

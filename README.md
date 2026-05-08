@@ -28,6 +28,13 @@ TAHER is built with a modular, plugin-based architecture:
 - **GPU:** NVIDIA RTX 4060 (8GB VRAM minimum)
 - **RAM:** 16GB+
 
+### ⚠️ Memory Optimization Tips
+If you experience `Out of Memory` errors in Ollama (as seen in logs):
+1. **Close Chrome/Browsers:** Browsers can consume significant VRAM.
+2. **Lower Quantization:** Use 4-bit versions of models (e.g., `ollama pull qwen3:8b-instruct-q4_K_M`).
+3. **Dedicated GPU:** Ensure Ollama is explicitly using your RTX 4060 and not the integrated CPU graphics.
+4. **Model Fallback:** If 8B models are too heavy, try a 3B or 1.5B variant for smoother performance on 8GB VRAM.
+
 ## ⚙️ Installation
 
 ### 1. Prerequisites

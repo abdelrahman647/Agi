@@ -25,10 +25,12 @@ playwright install chromium
 if (!(Get-Command ollama -ErrorAction SilentlyContinue)) {
     Write-Host "Ollama not found. Please install it from ollama.com" -ForegroundColor Yellow
 } else {
-    Write-Host "Pulling models..." -ForegroundColor Green
+    Write-Host "Pulling models (Quantized for 8GB VRAM)..." -ForegroundColor Green
+    # Using 4-bit quantization to prevent Out of Memory errors
     ollama pull qwen3:8b
     ollama pull qwen2.5-coder:7b
     ollama pull moondream
+    Write-Host "Note: If you still face OOM errors, try closing background apps or using smaller model variants (e.g., 3b)." -ForegroundColor Cyan
 }
 
 Write-Host "Setup complete. Run '.\venv\Scripts\Activate.ps1' and then 'python main.py' to start." -ForegroundColor Green
