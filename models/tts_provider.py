@@ -12,13 +12,23 @@ class PiperTTS:
         # Simplified Piper call via subprocess
         # Assumes piper executable is in PATH
         try:
+            import sounddevice as sd
+            import numpy as np
+
             process = subprocess.Popen(
                 ['piper', '--model', self.model_path, '--output_raw'],
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )
-            # This would normally stream to an audio device like 'aplay' or 'pw-play'
+
+            # Pipe output to sounddevice for real-time playback
             stdout, stderr = process.communicate(input=text.encode('utf-8'))
+
+            # Assume 22050Hz (Piper default) mono 16-bit
+            audio_array = np.frombuffer(stdout, dtype=np.int16)
+            sd.play(audio_array, samplerate=22050)
+            sd.wait()
+
         except Exception as e:
             self.logger.error(f"TTS Error: {e}")

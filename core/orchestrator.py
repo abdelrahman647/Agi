@@ -12,6 +12,8 @@ from planner.hierarchical_planner import Planner
 from agents.research_agent import ResearchAgent
 from memory.memory_manager import MemoryManager
 from tools.notifications import NotificationSystem
+from voice.voice_pipeline import VoicePipeline
+from models.tts_provider import PiperTTS
 
 class Orchestrator:
     def __init__(self):
@@ -21,6 +23,8 @@ class Orchestrator:
         self.planner = Planner(self)
         self.researcher = ResearchAgent(self.memory)
         self.notifier = NotificationSystem()
+        self.voice = VoicePipeline(self)
+        self.tts = PiperTTS()
         self.is_running = False
         self.logger = logging.getLogger("TAHER.Core")
 
@@ -28,6 +32,7 @@ class Orchestrator:
         self.logger.info("TAHER Orchestrator starting...")
         self.is_running = True
         asyncio.create_task(self.autonomous_loop())
+        asyncio.create_task(self.voice.listen_loop())
 
     async def autonomous_loop(self):
         """
@@ -48,7 +53,7 @@ class Orchestrator:
 
             await asyncio.sleep(60) # Check every minute
 
-    async def handle_instruction(self, instruction: str):
+    async def handle_instruction(self, instruction: str) -> str:
         self.logger.info(f"Received instruction: {instruction}")
 
         # 1. Update State
@@ -57,16 +62,27 @@ class Orchestrator:
         # 2. Plan
         plan = await self.planner.create_plan(instruction)
 
+        # Extract the LLM's primary thought/response from the plan
+        response = "Task initiated."
+        for step in plan:
+            if step['task'] == 'llm_reasoning':
+                response = step['params']['thought']
+
         # 3. Safety Verification
         if not await self.verify_plan_safety(plan):
             self.logger.warning("Plan failed safety check or was rejected by user.")
-            return
+            return "Plan rejected for safety reasons."
 
         # 4. Execute
         async for result in self.planner.execute_plan(plan):
             await self.events.emit("execution_update", result)
 
         self.logger.info("Instruction completed.")
+
+        # Speak the response
+        self.tts.speak(response)
+
+        return response
 
     async def verify_plan_safety(self, plan: List[Dict[str, Any]]) -> bool:
         """

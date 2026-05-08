@@ -1,12 +1,26 @@
 import logging
 from typing import List, Any, Dict
 from models.ollama_provider import OllamaProvider
+from models.airllm_provider import AirLLMProvider
+import yaml
 
 class Planner:
     def __init__(self, orchestrator):
         self.orchestrator = orchestrator
         self.logger = logging.getLogger("TAHER.Planner")
-        self.llm = OllamaProvider()
+
+        # Determine which LLM provider to use from config
+        try:
+            with open("configs/config.yaml", "r") as f:
+                config = yaml.safe_load(f)
+                if config.get("airllm", {}).get("enabled", False):
+                    self.llm = AirLLMProvider(config["airllm"]["model"])
+                    self.logger.info("Planner initialized with AirLLM (Sequential Layer Loading).")
+                else:
+                    self.llm = OllamaProvider()
+                    self.logger.info("Planner initialized with Ollama.")
+        except Exception:
+            self.llm = OllamaProvider()
 
     async def create_plan(self, instruction: str) -> List[Dict[str, Any]]:
         self.logger.info(f"Decomposing instruction into sub-tasks...")

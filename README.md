@@ -39,6 +39,7 @@ If you experience `Out of Memory` errors in Ollama (as seen in logs):
 
 ### 1. Prerequisites
 - **Python 3.10+**
+- **AirLLM Support:** Run massive models (e.g., Llama-3-70B) on your 8GB VRAM GPU by enabling sequential layer loading in `configs/config.yaml`.
 - **Ollama:** [Download Ollama](https://ollama.com/) and pull the models:
   ```bash
   ollama pull qwen3:8b

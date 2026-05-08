@@ -21,6 +21,14 @@ pillow
 faster-whisper
 piper-tts
 sounddevice
+pyaudio
+
+# Large Model Support
+airllm
+transformers
+accelerate
+safetensors
+sounddevice
 numpy
 
 # Development & Self-Improvement

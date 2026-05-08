@@ -13,6 +13,11 @@ models:
   tts: "piper"
   embeddings: "all-Minilm-L6-v2"
 
+airllm:
+  enabled: false
+  model: "unsloth/Llama-3-70B-Instruct-v0.1"
+  max_tokens: 256
+
 memory:
   db_type: "chromadb"
   path: "./memory/db"

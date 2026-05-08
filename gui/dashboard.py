@@ -78,8 +78,8 @@ class TaherGUI(QMainWindow):
         # In a full implementation, the orchestrator would emit events
         # which the GUI listens to.
         try:
-            await self.orchestrator.handle_instruction(instruction)
-            self.signals.response_received.emit("Task completed.")
+            response = await self.orchestrator.handle_instruction(instruction)
+            self.signals.response_received.emit(response)
         except Exception as e:
             self.signals.response_received.emit(f"System Error: {str(e)}")
 
